@@ -53,6 +53,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
+
+add_message_files(
+  FILES
+  MsgTutorial.msg
+)
+
 ## Generate services in the 'srv' folder
 # add_service_files(
 #   FILES
@@ -72,6 +78,11 @@ find_package(catkin REQUIRED COMPONENTS
 #   DEPENDENCIES
 #   std_msgs
 # )
+
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -103,10 +114,9 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES topic_tutorial
-#  CATKIN_DEPENDS message_generation roscpp std_msgs
-#  DEPENDS system_lib
+  INCLUDE_DIRS include
+  LIBRARIES topic_tutorial
+  CATKIN_DEPENDS roscpp std_msgs
 )
 
 ###########
@@ -120,6 +130,15 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
+
+add_executable(${PROJECT_NAME}_p src/topic_tutorial_p.cpp)
+add_dependencies(${PROJECT_NAME}_p ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(${PROJECT_NAME}_p ${catkin_LIBRARIES})
+
+
+add_executable(${PROJECT_NAME}_s src/topic_tutorial_s.cpp)
+add_dependencies(${PROJECT_NAME}_s ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(${PROJECT_NAME}_s ${catkin_LIBRARIES})
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/topic_tutorial.cpp
